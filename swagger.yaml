@@ -1,0 +1,537 @@
+openapi: 3.0.0
+info:
+  title: Swagger API
+  version: 1.0.0
+  description: API Documentation for SnapCatcha Project Using Swagger in Node.js
+servers:
+  - url: http://localhost:5000/api/v1/router
+    description: Development server (HTTP)
+paths:
+  /adminLogin:
+    post:
+      summary: Admin login
+      tags:
+        - Admin
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: test123@gmail.com
+                password:
+                  type: string
+                  example: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    example: jwt-token
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid 
+
+  /adminForgetPasswordSendOtp:
+    post:
+      summary: Forget password and send OTP
+      tags:
+        - Admin
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+      responses:
+        '200':
+          description: OTP sent successfully
+        '500':
+          description: Error sending OTP
+
+  /adminForgetPasswordFn:
+    post:
+      summary: change password
+      tags:
+        - Admin
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: abc@123
+                otp:
+                  type: number
+                  example: 12345
+      responses:
+        '200':
+          description: change password successfully
+        '400':
+          description: Internal server error
+
+  /register:
+    post:
+      summary: User Registration
+      tags:
+        - User
+      description: Register a new user
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  example: John Doe
+                password:
+                  type: string
+                  example: StrongPassword123
+                email:
+                  type: string
+                  example: johndoe@example.com
+      responses:
+        '200':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully
+                  user:
+                    type: object
+                    properties:
+                      fullName:
+                        type: string
+                      email:
+                        type: string
+                      isAdmin:
+                        type: boolean
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid input data
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
+  /login:
+    post:
+      summary: User login
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: test123@gmail.com
+                password:
+                  type: string
+                  example: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login successful
+                  token:
+                    type: string
+                    example: jwt-token
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid 
+  
+  /forgetPasswordSendOtp:
+    post:
+      summary: Forget password and send OTP
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+      responses:
+        '200':
+          description: OTP sent successfully
+        '500':
+          description: Error sending OTP
+
+  /forgetPasswordFn:
+    post:
+      summary: change password
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                password:
+                  type: string
+                  example: abc@123
+                otp:
+                  type: string
+                  example: 12345
+      responses:
+        '200':
+          description: change password successfully
+        '400':
+          description: Internal server error
+  
+  /otpVerify:
+    post:
+      summary: OTP verification
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+                otp:
+                  type: string
+                  example: 12345
+      responses:
+        '200':
+          description: otp verification successfully
+        '400':
+          description: Invalid OTP
+  
+
+  /resendOtp:
+    post:
+      summary: Resend OTP
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: user@example.com
+      responses:
+        '200':
+          description: OTP resent successfully
+        '500':
+          description: Error sending OTP
+
+  /showUser:
+    get:
+      summary: Show All Users
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: show all Users  successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /update/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the user profile
+    put:
+      summary: Update user profile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                bio:
+                  type: string
+              required:
+                - username
+                - email
+      responses:
+        '200':
+          description: Updated user profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  fullName:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+        '400':
+          description: Bad request, invalid input
+        '404':
+          description: User not found
+
+  /delete/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the user profile
+    delete:
+      summary: Delete user profile
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User deleted successfully
+        '404':
+          description: User not found
+
+  /upload:
+    post:
+      summary: Upload images or videos
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                longitude:
+                  type: number
+                latitude:
+                  type: number
+                userId:
+                  type: string
+                category:
+                  type: string
+      responses:
+        '200':
+          description: Files uploaded successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+  
+  /showMedia:
+    get:
+      summary: Show All images or videos
+      tags:
+        - Media
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: show all Files successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+
+  /account:
+    post:
+      summary: Add Account Details
+      tags:
+        - Account
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                payeeName:
+                  type: string
+                accountNumber:
+                  type: string
+                shortCode:
+                  type: string
+                description:
+                  type: string
+                share:
+                  type: int
+                
+      responses:
+        '200':
+          description: Location updated successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Server error
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Admin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    Media:
+      type: object
+      properties:
+        userId:
+          type: string
+        mediaType:
+          type: string
+        filePath:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Account: 
+      type: object
+      properties:
+        userId:
+          type: string
+        payeeName:
+          type: string
+        accountNumber:
+          type: string
+        shortCode:
+          type: string
+        description:
+          type: string
+        share:
+          type: int
